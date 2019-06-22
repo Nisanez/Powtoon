@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<meta charset="utf-8"/>
+<head>
+    <body>
+
+
+  <!--  <video id="video_1" width="640" >
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type"video/mp4">
+            Your browser does not support HTML5 videos
+          </video> -->
+    <p id = "debug_text"></p>
+
+    <canvas height="800" id ="my_canvas"></canvas>
+
+    <script id="vertex_shader" type="notjs">
+            // an attribute will receive data from a buffer
+            attribute vec2 a_position;
+            attribute vec2 a_tex_coord;
+
+            uniform vec2 u_resolution;
+
+            varying vec2 v_tex_coord;
+          
+            // all shaders have a main function
+            void main()
+             {
+              vec2 normalize = a_position  / u_resolution;
+              vec2 norm_tex  = a_tex_coord / u_resolution;
+
+              vec2 clip_space = ( normalize * 2.0 ) - 1.0;
+
+              // gl_Position is a special variable a vertex shader
+              // is responsible for setting
+              gl_Position = vec4( clip_space * vec2( 1, -1 ), 0, 1 );
+              v_tex_coord = norm_tex;
+            }
+    </script>
+
+    <script id="fragment_shader" type="notjs">
+        
+        precision mediump float;
+        
+        uniform sampler2D u_image;
+
+        varying vec2 v_tex_coord;
+
+
+        void main()
+        {
+        gl_FragColor = texture2D( u_image, v_tex_coord );
+        }
+    </script>
+
+    </body>
+
+<!--<script src="script.js"></script>-->
+<script src="webgl_script.js"></script>
+<!--<script src="webgl_video_handl.js"></script>-->
+
+</head>
